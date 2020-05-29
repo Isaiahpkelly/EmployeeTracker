@@ -1,10 +1,12 @@
 const inquirer = require('inquirer');
 var mysql = require("mysql");
 const addEmployee = require('./userRequest');
+const cTable = require('console.table');
+
 
 
 var connection;
-if(process.env.NODE_ENV ==="production"){
+if(process.env.JAWSDB_URL){
     connection = mysql.createConnection(process.env.JAWSDB_URL);
 } else{
     connection = mysql.createConnection({
@@ -15,7 +17,6 @@ if(process.env.NODE_ENV ==="production"){
         database: "employeeDB"
     });
 }
-
 const viewQuestions = {
  
     viewEmployeeDatabase: function(){
@@ -36,7 +37,7 @@ const viewQuestions = {
                 switch (answer.viewRequest) {
                     case "Departments":
         viewQuestions.viewDepartment();
-       
+       connection.end();
                         break;
                     case "Roles":
         viewQuestions.viewRole();
@@ -51,18 +52,18 @@ const viewQuestions = {
         
                 }
             })
-            .then(function() {
-                // addEmployee.userRequestWithDatabase();
-            })
+            
     },
     viewEmployee: function(){
         console.log("Selecting all employees...\n");
   connection.query("SELECT * FROM employee", function(err, res) {
     if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log(res);
+    console.table(res);
+    // addEmployee.userRequestWithDatabase();
     
-  });
+    
+  })
+  
   
     },
 
@@ -70,9 +71,9 @@ const viewQuestions = {
         console.log("Selecting all departments...\n");
   connection.query("SELECT * FROM department", function(err, res) {
     if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log(res);
-    connection.end();
+    // console.log(res);
+    console.table(res);
+    // connection.end();
   });
     },
 
@@ -80,11 +81,11 @@ const viewQuestions = {
         console.log("Selecting all roles...\n");
   connection.query("SELECT * FROM role", function(err, res) {
     if (err) throw err;
-    // Log all results of the SELECT statement
-    console.log(res);
+    // console.log(res);
+    console.table(res);
     connection.end();
   });
-    }
+}
         
     }
 

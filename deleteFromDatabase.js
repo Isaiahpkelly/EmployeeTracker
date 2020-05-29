@@ -1,9 +1,10 @@
 const inquirer = require('inquirer');
 var mysql = require("mysql");
 const index = require('./index');
+const cTable = require('console.table');
 
 var connection;
-if(process.env.NODE_ENV ==="production"){
+if(process.env.JAWSDB_URL){
     connection = mysql.createConnection(process.env.JAWSDB_URL);
 } else{
     connection = mysql.createConnection({
@@ -14,7 +15,6 @@ if(process.env.NODE_ENV ==="production"){
         database: "employeeDB"
     });
 }
-
 const deletingQuestions = {
     deleteFromDatabase: function(){
         

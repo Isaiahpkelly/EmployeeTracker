@@ -2,7 +2,22 @@ const inquirer = require('inquirer');
 const addtoDb = require('./addToDatabase');
 const viewDb = require('./viewDatabase');
 const deleteDb = require('./deleteFromDatabase');
+const updateDb = require('./updateDatabase');
 
+var mysql = require("mysql");
+
+var connection;
+if(process.env.JAWSDB_URL){
+    connection = mysql.createConnection(process.env.JAWSDB_URL);
+} else{
+    connection = mysql.createConnection({
+        host: "localhost",
+        port: 3306,
+        user: "root",
+        password: "root",
+        database: "employeeDB"
+    });
+}
 const addQuestions = {
     userRequestWithDatabase: function () {
         inquirer.prompt([
@@ -30,7 +45,7 @@ const addQuestions = {
                         break;
 
                     case "Update the database":
-
+                        updateDb.updateDatabase();
                         break;
 
                     case "Delete from the database":
@@ -39,15 +54,13 @@ const addQuestions = {
 
                     case "Exit the database":
 
+                        connection.close();
                         break;
-
-
-                    default:
 
                 }
             })
     }
-   
+
 }
 
 module.exports = addQuestions;

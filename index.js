@@ -6,7 +6,7 @@ const viewDb = require('./viewDatabase');
 
 
 var connection;
-if(process.env.NODE_ENV ==="production"){
+if(process.env.JAWSDB_URL){
     connection = mysql.createConnection(process.env.JAWSDB_URL);
 } else{
     connection = mysql.createConnection({
@@ -44,31 +44,6 @@ function createDepartment() {
     console.log(query.sql);
   }
 
-// function readProducts() {
-//     console.log("Selecting all employee...\n");
-//     connection.query("SELECT * FROM employee", function (err, res) {
-//         if (err) throw err;
-//         // Log all results of the SELECT statement
-//         console.log(res);
-//         connection.end();
-//     });
-// }
-
-// function deleteProduct() {
-//     console.log("Deleting all strawberry icecream...\n");
-//     connection.query(
-//         "DELETE FROM products WHERE ?",
-//         {
-//             flavor: "strawberry"
-//         },
-//         function (err, res) {
-//             if (err) throw err;
-//             console.log(res.affectedRows + " products deleted!\n");
-//             // Call readProducts AFTER the DELETE completes
-//             readProducts();
-//         }
-//     );
-// }
 
 function updateProduct() {
     console.log("Updating all Rocky Road quantities...\n");
